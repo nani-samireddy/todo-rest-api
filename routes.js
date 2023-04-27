@@ -61,6 +61,21 @@ router.get('/get-all-todos', (req, res) => {
     })
 })
 
+router.get('/get-todo/:todoId', (req, res) => {
+    if (!req.session.userId) {
+        res.send({ loggedIn: false, message: 'please login' })
+    }
+    const { todoId } = req.params
+    db.query('SELECT * FROM todos WHERE todoId = ?', todoId, (err, result) => {
+        if (err)
+
+
+            res.sendStatus(500)
+        res.send(result)
+        return;
+    })
+})
+
 router.post('/create-todo', (req, res) => {
     if (!req.session.userId) {
         res.send({ loggedIn: false, message: 'please login' })
